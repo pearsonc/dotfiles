@@ -11,9 +11,45 @@
 
 set $mod Mod4
 
+
+# Set the two monitor values 
+set $monitor1 HDMI-0
+set $monitor2 USB-C-0
+
+# Run monitor setup script
+bindsym XF86Display exec no-startup-id sh ~/.config/i3/screensetup.sh $monitor1 $monitor2
+
+# ensure workspace 1 is bound to monitor 1 and workspace 2 is bound to monitor2
+#workspace 0:0 output $monitor1
+#workspace 1:1 output $monitor2
+
+
+# Execute picom # Picom helps with smoothing and rasterisation in i3
+exec --no-startup-id picom
+
+# Start poly bar
+exec_always --no-startup-id killall polybar
+exec_always --no-startup-id ~/.config/polybar/launch_polybar.sh
+
+# Set a background
+exec_always feh --bg-scale ~/.config/backgrounds/bg1-4k.jpg
+
+#load rofi
+#bindsym $mod+space exec rofi -show drun
+bindsym $mod+space exec --no-startup-id ~/.config/rofi/launchers/type-6/launcher.sh
+bindsym $mod+x exec --no-startup-id ~/.config/rofi/powermenu/type-4/powermenu.sh
+
+
+# Set Alacritty as the default term
+bindsym $mod+Return exec alacritty
+
+
+bindsym $mod+shift+x exec betterlockscreen -l dim
+
+
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:JetBrainsMono Nerd Font 10
+font pango:JetBrainsMono Nerd Font 7
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -45,18 +81,19 @@ bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOU
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+#bindsym $mod+Return exec i3-sensible-terminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
+
 # start dmenu (a program launcher)
-bindsym $mod+d exec --no-startup-id dmenu_run
+# bindsym $mod+d exec --no-startup-id dmenu_run
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
 # .desktop file. It is a wrapper around dmenu, so you need that installed.
-# bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
+bindcode $mod+40 exec --no-startup-id i3-dmenu-desktop
 
 # change focus
 bindsym $mod+j focus left
@@ -100,7 +137,7 @@ bindsym $mod+e layout toggle split
 bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+bindsym $mod+Ctl+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
@@ -181,6 +218,6 @@ bindsym $mod+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-        status_command i3status
-}
+#bar {
+#        status_command i3status
+#}
